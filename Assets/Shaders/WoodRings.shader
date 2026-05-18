@@ -64,7 +64,11 @@ Shader "Unlit/WoodRings"
 					 col = lerp(col, float4(0.2, 0.2, 0.2, 1), clamp((camDistance - 20)/10, 0, 0.7));
 				}
 
-				col *= (_Ambient + (1 - _Ambient) * saturate(i.normal.y)); // VERY basic lighting. TODO LATER: improve
+				float3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
+
+				float lightingScalar = saturate(dot(lightDir, i.normal))+0.05;
+
+				col = col * lightingScalar;
 
 				return col;
 			}
